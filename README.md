@@ -12,3 +12,9 @@ git commit --all -m "I'm stupid by adding '--all' flag"
 # Project 1.
 
 You can find de docs on: [http://soft0.upc.es/~francesc/assd/readline.html]
+
+## **FAQS:**
+```
+jandaTheMan(13/09/2018): It is git command : git commit -am "Carlos is a facking faggot" alloewd in this scope? 
+                          Cheers!
+```
