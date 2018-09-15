@@ -1,4 +1,4 @@
-# UPC is a shitty place to study. But at least we program a few days.
+xxx# UPC is a shitty place to study. But at least we program a few days.
 
 ## **Is completly forbidden to use:**
 ```
@@ -11,7 +11,7 @@ git commit --all -m "I'm stupid by adding '--all' flag"
 
 # Project 1.
 
-You can find de docs on: [http://soft0.upc.es/~francesc/assd/readline.html]
+You can find de docs on: [http://soft0.upc.es/~francesc/assd]
 
 ## **FAQS:**
 ```
