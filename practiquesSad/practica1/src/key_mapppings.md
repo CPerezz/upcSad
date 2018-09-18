@@ -3,10 +3,10 @@
 **`int[]` is really a `char[]` formatted.**
 
 ```
-- RIGHT_ARROW => 27 91 673
-- LEFT_ARROW => 27 91 683
-- UPPER_ARROW => 27 91 653
-- DOWN_ARROW => 27 91 663
+- RIGHT_ARROW => 27 91 67
+- LEFT_ARROW => 27 91 68
+- UPPER_ARROW => 27 91 65
+- DOWN_ARROW => 27 91 66
 - BACKSPACE => 127
 - ENTER => 13
 - ESC => 27
