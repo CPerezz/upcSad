@@ -1,7 +1,16 @@
 # TCGI.
 	> It's not recommended to run simctl on Virtual Machines. Plz, Get Linux...
 
+
+
 ## Simtools
+
+### LogIn on Simtools shells obtainet with `simctl <scenario> get <shell>`.
+```
+Press Enter.
+user: root
+pass: xxxx
+```
 
 ### Problems and workarrounds on simctl
 - By default, simctl does not catch the simulated shell resizes because that shells are running UML Kernel like. To be able to resize it and get a pretty looking ad formatted shell we do the following:
