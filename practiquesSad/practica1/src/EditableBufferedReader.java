@@ -1,17 +1,14 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.*;
-
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditableBufferedReader extends BufferedReader {
 
-    //Model Object that stores the state of the text introduced.
-    private final int RIGHT_ARROW= 1111;
-    private Line line;
-    private Reader rr;
 
-    //Map<
+    //Model Object that stores the state of the text introduced.
+    private Line line;
 
     public EditableBufferedReader(Reader reader) {
         super(reader);
@@ -37,38 +34,95 @@ public class EditableBufferedReader extends BufferedReader {
     }
 
     public int read() throws IOException{
-        int pre =0;
+
+        //The read characters or sequence of characters are stored in this array read each time some key is pressed
         char[] ch = new char[3];
-        int numCh = super.read(ch);
-        if(numCh==3){
-          if((int) ch[0]==27){
-            return RIGHT_ARROW;
-          }
+        int numChars = super.read(ch);
+
+        if(numChars == 1){
+            if((int)ch[0]<32 || (int)ch[0]>126){
+                //some mapping of the characters
+                switch(ch[0]){
+                    case 13 : return EsqSec.ENTER;
+                    case 3 : return EsqSec.Ctrl_C;
+                    case 24 : return EsqSec.Ctrl_X;
+                    case 27: return EsqSec.ESC;
+                    case 127: return EsqSec.BACKSPACE;
+                    default : return 0;
+                }
+            }else {
+                return ch[0];
+            }
         }else{
-          return (int) ch[0];
+            if(ch[0]==27 && ch[1]==91){
+                switch(ch[2]){
+                    case  67: return EsqSec.RIGHT_ARROW;
+                    case  68: return EsqSec.LEFT_ARROW;
+                }
+            }
         }
 
-        return pre;
+        return 0;
     }
 
     public String readLine(){
 
-        this.setRaw();//Setting up the raw mode to read charcter by character introduced in the terminal
+        this.setRaw();
+        LineActionMapper lnM = new LineActionMapper(this.line);
+        lnM.initializeMap();
         try {
-            while(true){
-              int ch = this.read();
-              if(ch==RIGHT_ARROW){
-                char esc = 0x1B;
-                int n = 1;
-                System.out.print(String.format("%c[%dD",esc,n));
-              }else{
-                System.out.print((char) ch);
-              }
+            int read = 0;
+            while(read != EsqSec.ENTER){
+                lnM.matchF(read);
+                read = this.read();
             }
-        } catch (IOException e) {
+        } catch (IOException e) { 
             e.printStackTrace();
         }
         this.unsetRaw();
         return line.getLine();
+    }
+}
+
+class LineActionMapper{
+    private Map<Integer, Runnable> actionsMap;
+    private Line line;
+
+    public LineActionMapper(Line line){
+        this.actionsMap= new HashMap<>();
+        this.line = line;
+    }
+
+    //Mapping of the actions for incoming read characters or sequence of characters
+    public void initializeMap(){
+
+        this.actionsMap.put( EsqSec.RIGHT_ARROW ,()->{
+            System.out.print(EsqSec.RIGHT_ARROW_s);
+            line.RightArrow();
+            return;
+        });
+        this.actionsMap.put( EsqSec.LEFT_ARROW ,()->{
+            System.out.print(EsqSec.LEFT_ARROW_s);
+            line.LeftArrow();
+            return;
+        });
+        this.actionsMap.put( EsqSec.BACKSPACE ,()->{
+            System.out.print(EsqSec.BACKSPACE_s);
+            line.delete();
+            return;
+        });
+    }
+
+    public void matchF(int read){
+
+        if( !this.actionsMap.containsKey(read)) {
+            if(read == 0){
+                return;
+            }
+            System.out.print(String.valueOf((char) read));
+            line.insert((char) read);
+            return;
+        }
+        this.actionsMap.get(read).run();
     }
 }
