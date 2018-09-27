@@ -15,6 +15,10 @@ public class EsqSec {
     public static final int HOME = 70006;
     public static final int END = 70007;
 
+    public static final String REMOVEFROMCURSOR ="\033[K";
+    public static final String SAVEFROMCURSOR = "\0337";
+    public static final String RELOADCURSOR ="\0338";
+
 
     public static final int ENTER = 70008;
 

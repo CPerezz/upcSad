@@ -56,14 +56,11 @@ public class EditableBufferedReader extends BufferedReader {
                 switch(ch[2]){
                     case  67: return EsqSec.RIGHT_ARROW;
                     case  68: return EsqSec.LEFT_ARROW;
-                    case  49: return EsqSec.INSERT;
+                    case  49: return EsqSec.INSERT;//F5 is mapped because my computer dont have insert key
                     case  72: return EsqSec.HOME;
                     case  70: return EsqSec.END;
                 }
             }
-        }
-        for(char c : ch ){
-            System.out.print((int) c+" ");
         }
         return 0;
     }
@@ -138,17 +135,16 @@ class LineActionMapper{
             if(read == 0){
                 return;
             }
-            boolean isInsert = line.isInsert();
-            if(isInsert){
+            if(line.isInsert()){
                 line.insert((char) read);
                 System.out.print(String.valueOf((char) read));
             }else{
-                System.out.print("\033[K");
+                System.out.print(EsqSec.REMOVEFROMCURSOR);
                 System.out.print(String.valueOf((char) read));
                 line.insert((char) read);
+                System.out.print(EsqSec.SAVEFROMCURSOR);
                 System.out.print(line.getFromCursor());
-                int moves = line.getLeftMoves();
-                System.out.print("\033["+moves+"D");
+                System.out.print(EsqSec.RELOADCURSOR);
             }
             return;
         }

@@ -10,10 +10,6 @@ public class Line {
         isInsert= false; //Edit mode by default
     }
 
-    public int getLeftMoves(){
-        return line.length()-cursorAt;
-    }
-
     public void insert(char car){
         if(!isInsert) {
             line.insert(cursorAt, car);
@@ -72,6 +68,13 @@ public class Line {
         return numToBeg;
     }
 
+    public String getFromCursor(){
+        if(cursorAt==line.length()){
+            return " ";
+        }
+        return line.substring(cursorAt,line.length());
+    }
+
     public boolean isInsert() {
         return isInsert;
     }
@@ -82,13 +85,6 @@ public class Line {
 
     public void unsetInsertMode(){
         isInsert = false;
-    }
-
-    public String getFromCursor(){
-        if(cursorAt==line.length()){
-            return " ";
-        }
-        return line.substring(cursorAt,line.length());
     }
 
     public String getLine(){
